@@ -38,7 +38,18 @@ namespace WebAtividadeEntrevista.Controllers
             }
             else
             {
-                
+                if (!ValidarCpf(model.Cpf))
+                {
+                    Response.StatusCode = 400;
+                    return Json("CPF inválido.");
+                }
+
+                if (bo.VerificarExistencia(model.Cpf))
+                {
+                    Response.StatusCode = 400;
+                    return Json("CPF já existente.");
+                }
+
                 model.Id = bo.Incluir(new Cliente()
                 {                    
                     CEP = model.CEP,
@@ -49,7 +60,8 @@ namespace WebAtividadeEntrevista.Controllers
                     Nacionalidade = model.Nacionalidade,
                     Nome = model.Nome,
                     Sobrenome = model.Sobrenome,
-                    Telefone = model.Telefone
+                    Telefone = model.Telefone,
+                    Cpf = model.Cpf
                 });
 
            
@@ -73,6 +85,17 @@ namespace WebAtividadeEntrevista.Controllers
             }
             else
             {
+                if (!ValidarCpf(model.Cpf))
+                {
+                    Response.StatusCode = 400;
+                    return Json("CPF inválido");
+                }
+
+                if (bo.VerificarExistencia(model.Cpf)) {
+                    Response.StatusCode = 400;
+                    return Json("CPF já existente.");
+                }  
+
                 bo.Alterar(new Cliente()
                 {
                     Id = model.Id,
@@ -84,7 +107,8 @@ namespace WebAtividadeEntrevista.Controllers
                     Nacionalidade = model.Nacionalidade,
                     Nome = model.Nome,
                     Sobrenome = model.Sobrenome,
-                    Telefone = model.Telefone
+                    Telefone = model.Telefone,
+                    Cpf = model.Cpf
                 });
                                
                 return Json("Cadastro alterado com sucesso");
@@ -111,7 +135,8 @@ namespace WebAtividadeEntrevista.Controllers
                     Nacionalidade = cliente.Nacionalidade,
                     Nome = cliente.Nome,
                     Sobrenome = cliente.Sobrenome,
-                    Telefone = cliente.Telefone
+                    Telefone = cliente.Telefone,
+                    Cpf = cliente.Cpf
                 };
 
             
@@ -145,6 +170,55 @@ namespace WebAtividadeEntrevista.Controllers
             {
                 return Json(new { Result = "ERROR", Message = ex.Message });
             }
+        }
+
+        public bool ValidarCpf(string cpf)
+        {
+            if (cpf.Length != 11)
+                return false;
+
+            int soma = 0;
+            int resto;
+
+            for (int i = 0; i < 9; i++)
+            {
+                soma += int.Parse(cpf[i].ToString()) * (10 - i);
+            }
+
+            resto = soma % 11;
+
+            if (resto < 2)
+            {
+                if (int.Parse(cpf[9].ToString()) != 0)
+                    return false;
+            }
+            else
+            {
+                if (int.Parse(cpf[9].ToString()) != 11 - resto)
+                    return false;
+            }
+
+            soma = 0;
+
+            for (int i = 0; i < 10; i++)
+            {
+                soma += int.Parse(cpf[i].ToString()) * (11 - i);
+            }
+
+            resto = soma % 11;
+
+            if (resto < 2)
+            {
+                if (int.Parse(cpf[10].ToString()) != 0)
+                    return false;
+            }
+            else
+            {
+                if (int.Parse(cpf[10].ToString()) != 11 - resto)
+                    return false;
+            }
+
+            return true;
         }
     }
 }
