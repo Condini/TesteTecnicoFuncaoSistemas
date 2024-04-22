@@ -72,5 +72,6 @@ namespace WebAtividadeEntrevista.Models
         /// </summary>
         [Required]
         public string Cpf { get; set; }
+        public List<BeneficiarioModel> Beneficiarios { get; set; }
     }
 }

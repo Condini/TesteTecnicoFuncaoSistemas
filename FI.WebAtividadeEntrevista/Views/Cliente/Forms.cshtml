@@ -76,6 +76,11 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-6">
+            <button type="button" class="btn btn-default" id="Beneficiarios" data-toggle="modal" data-target="#beneficiariosModal">Beneficiários</button>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-lg-12">
@@ -87,9 +92,60 @@
     </div>
 </form>
 
+<div class="modal fade" id="beneficiariosModal" tabindex="1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Beneficiários</h4>
+            </div>
+            <div class="modal-body">
+                <form id="formCadastroBeneficiario" method="post">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <label for="CPFBeneficiario">CPF:</label>
+                        </div>
+                        <div class="col-md-5">
+                            <label for="NomeBeneficiario">Nome:</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <input required="required" type="text" class="form-control" id="CPFBeneficiario" name="CPFBeneficiario" placeholder="Ex.: 010.100.011-10" maxlength="14" onfocusout="ValidaCPF(this);">
+                            <div id="errorCPFBeneficiario" class="formError"></div>
+                        </div>
+                        <div class="col-md-5">
+                            <input required="required" type="text" class="form-control" id="NomeBeneficiario" name="NomeBeneficiaro" placeholder="Ex.: João" maxlength="50">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-success">Incluir</button>
+                        </div>
+                    </div>
+                </form>
+                <br />
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <label>CPF</label>
+                        </div>
+                        <div class="col-md-5">
+                            <label>Nome</label>
+                        </div>
+                    </div>
+                    <div class="row" id="gridBeneficiarios">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
 <script>
     $('#Cpf').mask('000.000.000-00', { reverse: true });
+    $('#CPFBeneficiario').mask('000.000.000-00', { reverse: true });
 </script>
